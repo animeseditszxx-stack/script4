@@ -2908,29 +2908,35 @@ DevTab:CreateSection("Developer Access")
 DevTab:CreateLabel("Restricted Area - Dev Only")
 
 local devInput = DevTab:CreateInput({
-    Name = "zoompro177",
+    Name = "Enter Your Username",
     PlaceholderText = "Username...",
     RemoveTextAfterFocusLost = false,
     Flag = "DevInput",
-    Callback = function(v)
-        if v == LP.Name and LP.Name == "zoompro177" then
-            State.devAccess = true
-            C.Misc.DebugMode = true
+Callback = function(v)
+    local input = string.lower(v):gsub("%s+", "")
+    local playerName = string.lower(LP.Name)
+
+    if input == playerName and playerName == "zoompro177" then
+        State.devAccess = true
+        C.Misc.DebugMode = true
+        
+        if debugLabel then
             debugLabel.Visible = true
-            Rayfield:Notify({
-                Title = "DEV ACCESS GRANTED",
-                Content = "Welcome, " .. LP.Name .. "! Dev mode enabled.",
-                Duration = 5,
-            })
-        else
-            Rayfield:Notify({
-                Title = "Access Denied",
-                Content = "Invalid credentials.",
-                Duration = 3,
-            })
         end
-    end,
-})
+
+        Rayfield:Notify({
+            Title = "DEV ACCESS GRANTED",
+            Content = "Welcome, " .. LP.Name .. "! Dev mode enabled.",
+            Duration = 5,
+        })
+    else
+        Rayfield:Notify({
+            Title = "Access Denied",
+            Content = "Invalid credentials.",
+            Duration = 3,
+        })
+    end
+end
 
 DevTab:CreateSection("Dev Tools (Requires Access)")
 
